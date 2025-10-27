@@ -1,287 +1,335 @@
-<!DOCTYPE html>
-<html lang="th">
+<!DOCTYPE html><html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เว็บไซต์อ่านหนังสือ (Admin Hidden Login)</title>
+  <title>เว็บไซต์อ่านหนังสือ v2 (with Sponsors)</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/idb@7/build/umd.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .admin-only { display: none; }
-    .admin-active .admin-only { display: block; }
-    .secret-hit { cursor: pointer; }
+    body { background-color: #f9fafb; }
+    .sponsor-popup { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; z-index:60 }
+    .sponsor-overlay { position: absolute; inset:0; background: rgba(0,0,0,0.45); }
+    .sponsor-card { position: relative; z-index:61; max-width:90%; max-height:90%; display:flex; align-items:center; justify-content:center }
+    .sponsor-close { position:absolute; top:6px; right:6px; background:white; border-radius:999px; padding:4px; cursor:pointer }
+    .floating-banner { position: fixed; left:0; right:0; bottom:12px; display:flex; justify-content:center; z-index:50 }
+    .floating-inner { position: relative; background: white; border-radius:8px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); overflow:hidden }
+    .floating-close { position:absolute; top:6px; right:6px; background:white; border-radius:999px; padding:4px; cursor:pointer }
   </style>
 </head>
-<body class="bg-gray-50">
-  <div id="root"></div>
+<body>
+  <div id="root"></div>  <script type="text/babel">
+    const DB_NAME = 'book_reader_v2';
+    const DB_VERSION = 2;
+    const BOOKS_STORE = 'books';
+    const CATS_STORE = 'categories';
+    const SPONSORS_STORE = 'sponsors';
 
-  <script type="text/babel">
+    async function openDB() {
+      return await idb.openDB(DB_NAME, DB_VERSION, {
+        upgrade(db, oldV, newV, tx) {
+          if (!db.objectStoreNames.contains(BOOKS_STORE)) db.createObjectStore(BOOKS_STORE, { keyPath: 'id' });
+          if (!db.objectStoreNames.contains(CATS_STORE)) db.createObjectStore(CATS_STORE, { keyPath: 'id' });
+          if (!db.objectStoreNames.contains(SPONSORS_STORE)) db.createObjectStore(SPONSORS_STORE, { keyPath: 'id' });
+        }
+      });
+    }
+
     function App() {
-      const DEFAULT_PASS = "admin123";
-      const PASS_KEY = "booksite_admin_pass_v1";
-      const STORAGE_KEY = "booksite_books_v1";
-
-      const [isAdmin, setIsAdmin] = React.useState(false);
       const [books, setBooks] = React.useState([]);
-      const [query, setQuery] = React.useState("");
+      const [categories, setCategories] = React.useState([]);
+      const [sponsors, setSponsors] = React.useState([]);
+      const [selectedCat, setSelectedCat] = React.useState('all');
       const [selectedBook, setSelectedBook] = React.useState(null);
+      const [isAdmin, setIsAdmin] = React.useState(false);
+      const [query, setQuery] = React.useState('');
       const fileRef = React.useRef(null);
-      const importRef = React.useRef(null);
-      const secretHits = React.useRef([]);
-      const [statusMsg, setStatusMsg] = React.useState("");
+      const sponsorFileRef = React.useRef(null);
+      const clickSecret = React.useRef([]);
 
-      function simpleHash(s) {
-        let h = 2166136261 >>> 0;
-        for (let i = 0; i < s.length; i++) {
-          h ^= s.charCodeAt(i);
-          h = Math.imul(h, 16777619);
-        }
-        return (h >>> 0).toString(16);
+      React.useEffect(() => { (async () => {
+        const db = await openDB();
+        setBooks(await db.getAll(BOOKS_STORE));
+        const cats = await db.getAll(CATS_STORE);
+        setCategories(cats.length ? cats : [{ id: 'default', name: 'ทั่วไป' }]);
+        setSponsors(await db.getAll(SPONSORS_STORE));
+      })(); }, []);
+
+      async function refreshAll() {
+        const db = await openDB();
+        setBooks(await db.getAll(BOOKS_STORE));
+        setCategories(await db.getAll(CATS_STORE));
+        setSponsors(await db.getAll(SPONSORS_STORE));
       }
 
-      React.useEffect(() => {
-        if (!localStorage.getItem(PASS_KEY)) {
-          localStorage.setItem(PASS_KEY, simpleHash(DEFAULT_PASS));
-        }
-      }, []);
-
-      React.useEffect(() => {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) setBooks(JSON.parse(saved));
-      }, []);
-
-      React.useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
-      }, [books]);
-
-      React.useEffect(() => {
-        function onKey(e) {
-          if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-            activateAdminPrompt();
-          }
-        }
-        window.addEventListener("keydown", onKey);
-        return () => window.removeEventListener("keydown", onKey);
-      }, []);
-
-      function logoClicked() {
-        const now = Date.now();
-        secretHits.current.push(now);
-        secretHits.current = secretHits.current.slice(-5);
-        if (secretHits.current.length === 5 && (now - secretHits.current[0]) < 3000) {
-          activateAdminPrompt();
-          secretHits.current = [];
-        }
+      async function saveBook(book) {
+        const db = await openDB();
+        await db.put(BOOKS_STORE, book);
+        await refreshAll();
       }
 
-      function activateAdminPrompt() {
-        const pw = prompt("รหัสลับ (เฉพาะแอดมิน):");
-        if (pw === null) return;
-        const stored = localStorage.getItem(PASS_KEY) || simpleHash(DEFAULT_PASS);
-        if (simpleHash(pw) === stored) {
-          setIsAdmin(true);
-          setStatusMsg("เข้าสู่ระบบแอดมินเรียบร้อย");
-        } else {
-          alert("รหัสไม่ถูกต้อง");
-        }
+      async function saveCategory(cat) {
+        const db = await openDB();
+        await db.put(CATS_STORE, cat);
+        await refreshAll();
       }
 
-      function changeAdminPassword() {
-        const cur = prompt("ใส่รหัสปัจจุบัน:");
-        if (cur === null) return;
-        const stored = localStorage.getItem(PASS_KEY) || simpleHash(DEFAULT_PASS);
-        if (simpleHash(cur) !== stored) {
-          alert("รหัสปัจจุบันไม่ถูกต้อง");
-          return;
-        }
-        const next = prompt("ใส่รหัสใหม่ (อย่างน้อย 6 ตัว):");
-        if (!next || next.length < 6) {
-          alert("รหัสใหม่สั้นเกินไป");
-          return;
-        }
-        localStorage.setItem(PASS_KEY, simpleHash(next));
-        alert("เปลี่ยนรหัสเรียบร้อย");
+      async function saveSponsor(s) {
+        const db = await openDB();
+        await db.put(SPONSORS_STORE, s);
+        await refreshAll();
       }
 
-      function handleFileUpload(e) {
+      async function deleteSponsor(id) {
+        if (!confirm('ลบโฆษณาจริงหรือไม่?')) return;
+        const db = await openDB();
+        await db.delete(SPONSORS_STORE, id);
+        await refreshAll();
+      }
+
+      async function deleteBook(id) {
+        if (!confirm('ลบหนังสือจริงหรือไม่?')) return;
+        const db = await openDB();
+        await db.delete(BOOKS_STORE, id);
+        await refreshAll();
+        setSelectedBook(null);
+      }
+
+      async function handleUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        if (file.type.startsWith("text/") || file.name.endsWith(".md") || file.name.endsWith(".txt")) {
-          reader.onload = (ev) => {
-            const text = ev.target.result;
-            const dataUrl = "data:text/plain;base64," + btoa(unescape(encodeURIComponent(text)));
-            const newBook = {
-              id: Date.now(),
-              title: prompt("ชื่อหนังสือ:") || file.name,
-              author: prompt("ชื่อผู้แต่ง (ถ้ามี):") || "ไม่ระบุ",
-              filename: file.name,
-              mime: "text/plain",
-              dataUrl,
-              uploadedAt: new Date().toISOString(),
-            };
-            setBooks((s) => [newBook, ...s]);
-            setStatusMsg("อัพโหลดไฟล์ข้อความเรียบร้อย");
-            fileRef.current.value = null;
+        reader.onload = async (ev) => {
+          const book = {
+            id: Date.now() + Math.floor(Math.random()*1000),
+            title: prompt('ชื่อหนังสือ:') || file.name,
+            author: prompt('ชื่อผู้แต่ง (ถ้ามี):') || 'ไม่ระบุ',
+            category: prompt('หมวดหมู่ (หรือปล่อยว่างเพื่อใช้ทั่วไป):') || 'ทั่วไป',
+            filename: file.name,
+            mime: file.type || 'application/octet-stream',
+            dataUrl: ev.target.result,
+            uploadedAt: new Date().toISOString()
           };
-          reader.readAsText(file);
-        } else {
-          reader.onload = (ev) => {
-            const dataUrl = ev.target.result;
-            const newBook = {
-              id: Date.now(),
-              title: prompt("ชื่อหนังสือ:") || file.name,
-              author: prompt("ชื่อผู้แต่ง (ถ้ามี):") || "ไม่ระบุ",
-              filename: file.name,
-              mime: file.type || "application/octet-stream",
-              dataUrl,
-              uploadedAt: new Date().toISOString(),
-            };
-            setBooks((s) => [newBook, ...s]);
-            setStatusMsg("อัพโหลดเรียบร้อย");
-            fileRef.current.value = null;
+          await saveBook(book);
+          fileRef.current.value = null;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      async function handleSponsorUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          const type = prompt('ชนิดการแสดง (banner / popup):', 'banner') || 'banner';
+          const title = prompt('ชื่อโฆษณา:') || file.name;
+          const url = prompt('URL เมื่อคลิก (เว้นว่างเพื่อไม่มี):') || '';
+          const sponsor = {
+            id: 's_' + (Date.now() + Math.floor(Math.random()*1000)),
+            title,
+            url,
+            display: (type === 'popup') ? 'popup' : 'banner',
+            mime: file.type,
+            dataUrl: ev.target.result,
+            createdAt: new Date().toISOString()
           };
-          reader.readAsDataURL(file);
+          await saveSponsor(sponsor);
+          sponsorFileRef.current.value = null;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function filteredBooks() {
+        return books.filter(b =>
+          (selectedCat === 'all' || b.category === selectedCat) &&
+          (b.title.toLowerCase().includes(query.toLowerCase()) ||
+           b.author.toLowerCase().includes(query.toLowerCase()))
+        );
+      }
+
+      function secretClick() {
+        const now = Date.now();
+        clickSecret.current.push(now);
+        clickSecret.current = clickSecret.current.slice(-5);
+        if (clickSecret.current.length === 5 && (now - clickSecret.current[0]) < 3000) {
+          const pw = prompt('รหัสแอดมิน:');
+          if (pw === 'admin123') setIsAdmin(true);
+          clickSecret.current = [];
         }
       }
 
-      function removeBook(id) {
-        if (!confirm("ลบหนังสือจริงหรือไม่?")) return;
-        setBooks((s) => s.filter((b) => b.id !== id));
-        if (selectedBook && selectedBook.id === id) setSelectedBook(null);
-        setStatusMsg("ลบเรียบร้อย");
+      function openReaderInNewTab(book) {
+        // gather active sponsors to pass to reader
+        const activeSponsors = sponsors;
+        const readerHtml = `<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${book.title}</title><style>body{font-family:Inter,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif;margin:0;padding:0;background:#fff} .reader-wrap{max-width:900px;margin:40px auto;padding:20px} .sponsor-popup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:60} .sponsor-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.45)} .sponsor-card{position:relative;z-index:61;max-width:90%;max-height:90%;display:flex;align-items:center;justify-content:center} .sponsor-close{position:absolute;top:6px;right:6px;background:white;border-radius:999px;padding:4px;cursor:pointer} .floating-banner{position:fixed;left:0;right:0;bottom:12px;display:flex;justify-content:center;z-index:50} .floating-inner{position:relative;background:white;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.12);overflow:hidden} .floating-close{position:absolute;top:6px;right:6px;background:white;border-radius:999px;padding:4px;cursor:pointer}</style></head><body><div class="reader-wrap"><h1>${book.title}</h1><div class="text-muted">${book.author}</div><div style="margin-top:16px">${book.mime === 'application/pdf' ? '<iframe src="' + book.dataUrl + '" style="width:100%;height:70vh;border:0"></iframe>' : (book.mime && book.mime.startsWith('image/') ? '<img src="' + book.dataUrl + '" style="max-width:100%"/>' : '<pre style="white-space:pre-wrap;">' + (book.dataUrl ? atob(book.dataUrl.split(',')[1]) : '') + '</pre>')}</div></div><script>
+  (function(){
+    const sponsors = ${JSON.stringify(activeSponsors)};
+    function showSponsor(s){
+      if(!s) return;
+      const closed = localStorage.getItem('sponsor_closed_' + s.id);
+      if(closed) return;
+      if(s.display === 'popup'){
+        const wrap = document.createElement('div'); wrap.className='sponsor-popup';
+        const overlay = document.createElement('div'); overlay.className='sponsor-overlay'; wrap.appendChild(overlay);
+        const card = document.createElement('div'); card.className='sponsor-card';
+        const inner = document.createElement('div'); inner.style.position='relative';
+        inner.style.maxWidth='900px'; inner.style.maxHeight='80vh';
+        if(s.mime && s.mime.startsWith('image')){
+          const img = document.createElement('img'); img.src = s.dataUrl; img.style.maxWidth='100%'; img.style.maxHeight='80vh'; inner.appendChild(img);
+        } else if(s.mime && s.mime.startsWith('video')){
+          const v = document.createElement('video'); v.src = s.dataUrl; v.controls = true; v.autoplay = true; v.style.maxWidth='100%'; inner.appendChild(v);
+        }
+        if(s.url){ const a=document.createElement('a'); a.href=s.url; a.target='_blank'; a.style.position='absolute'; a.style.inset='0'; a.style.zIndex='1'; a.style.textDecoration='none'; inner.appendChild(a); }
+        const close = document.createElement('button'); close.className='sponsor-close'; close.innerText='✕'; close.onclick = ()=>{ localStorage.setItem('sponsor_closed_' + s.id, '1'); document.body.removeChild(wrap); };
+        card.appendChild(inner); card.appendChild(close); wrap.appendChild(card); document.body.appendChild(wrap);
+      } else {
+        const fb = document.createElement('div'); fb.className='floating-banner';
+        const inner = document.createElement('div'); inner.className='floating-inner'; inner.style.padding='6px 8px';
+        if(s.mime && s.mime.startsWith('image')){ const img=document.createElement('img'); img.src=s.dataUrl; img.style.maxHeight='80px'; inner.appendChild(img); }
+        else if(s.mime && s.mime.startsWith('video')){ const v=document.createElement('video'); v.src=s.dataUrl; v.controls=true; v.autoplay=true; v.style.maxHeight='120px'; inner.appendChild(v); }
+        if(s.url){ const a=document.createElement('a'); a.href=s.url; a.target='_blank'; a.style.display='block'; a.style.textDecoration='none'; a.style.color='inherit'; a.style.height='100%'; inner.appendChild(a); }
+        const close = document.createElement('button'); close.className='floating-close'; close.innerText='✕'; close.onclick = ()=>{ localStorage.setItem('sponsor_closed_' + s.id,'1'); document.body.removeChild(fb); };
+        inner.appendChild(close); fb.appendChild(inner); document.body.appendChild(fb);
       }
-
-      function downloadBook(b) {
-        const a = document.createElement("a");
-        a.href = b.dataUrl;
-        a.download = b.filename || (b.title + ".download");
-        a.click();
-      }
-
-      function exportAllBooks() {
-        const payload = {
-          exportedAt: new Date().toISOString(),
-          books,
-        };
-        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "books_archive.json";
-        a.click();
-        setStatusMsg("ส่งออกไฟล์หนังสือทั้งหมด");
-      }
-
-      function importBooksFromFile(e) {
-        const f = e.target.files[0];
-        if (!f) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          try {
-            const obj = JSON.parse(ev.target.result);
-            if (!obj.books) throw new Error("ไฟล์ไม่ตรงรูปแบบ");
-            const remapped = obj.books.map(b => ({...b, id: Date.now() + Math.floor(Math.random()*1000000)}));
-            setBooks((s) => [...remapped, ...s]);
-            setStatusMsg("นำเข้าไฟล์หนังสือเรียบร้อย");
-          } catch (err) {
-            alert("ไม่สามารถอ่านไฟล์นำเข้า: " + err.message);
-          }
-          importRef.current.value = null;
-        };
-        reader.readAsText(f);
-      }
-
-      const filtered = books.filter(
-        (b) =>
-          b.title.toLowerCase().includes(query.toLowerCase()) ||
-          b.author.toLowerCase().includes(query.toLowerCase())
-      );
-
-      return (
-        <div className={(isAdmin ? "admin-active " : "") + "min-h-screen bg-gray-50 p-4 md:p-8"}>
-          <header className="max-w-6xl mx-auto flex items-center justify-between">
-            <div className="secret-hit" onClick={logoClicked}>
-              <h1 className="text-2xl md:text-3xl font-bold">📚 เว็บไซต์อ่านหนังสือ</h1>
-              <p className="text-sm text-gray-600">ระบบอัพโหลดหนังสือโดยแอดมิน — เวอร์ชันเดียวไฟล์เดียวง่ายต่อการสำรอง</p>
-            </div>
-            <div>
-              {!isAdmin ? (
-                <div className="text-sm text-gray-500">ผู้เยี่ยมชม</div>
-              ) : (
-                <button onClick={() => { setIsAdmin(false); setStatusMsg("ออกจากระบบแอดมิน"); }} className="px-3 py-1 rounded-lg border">ออกจากแอดมิน</button>
-              )}
-            </div>
-          </header>
-
-          <main className="max-w-6xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <section className="bg-white p-4 rounded-xl shadow-sm">
-              <input
-                className="w-full p-2 border rounded"
-                placeholder="🔍 ค้นหาหนังสือ..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <div className="mt-4 space-y-2 max-h-[60vh] overflow-y-auto">
-                {filtered.length === 0 && <div className="text-sm text-gray-500">ยังไม่มีหนังสือ</div>}
-                {filtered.map((b) => (
-                  <div key={b.id} className="p-2 rounded hover:bg-gray-50 flex items-center justify-between">
-                    <div onClick={() => setSelectedBook(b)} className="cursor-pointer flex-1">
-                      <div className="font-medium">{b.title}</div>
-                      <div className="text-xs text-gray-500">{b.author}</div>
-                    </div>
-                    {isAdmin && <button onClick={() => removeBook(b.id)} className="text-xs px-2 py-1 border rounded admin-only">ลบ</button>}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 admin-only">
-                <label className="block text-sm font-medium">📤 อัพโหลดหนังสือ (สำหรับแอดมิน)</label>
-                <input ref={fileRef} type="file" accept="application/pdf,text/*,image/*" onChange={handleFileUpload} className="mt-2" />
-                <div className="mt-3 flex gap-2">
-                  <button onClick={exportAllBooks} className="px-3 py-1 rounded border">ส่งออกทั้งหมด</button>
-                  <label className="px-3 py-1 rounded border cursor-pointer">
-                    นำเข้า
-                    <input ref={importRef} onChange={importBooksFromFile} type="file" accept="application/json" className="hidden" />
-                  </label>
-                  <button onClick={changeAdminPassword} className="px-3 py-1 rounded border">เปลี่ยนรหัส</button>
-                </div>
-              </div>
-            </section>
-
-            <section className="md:col-span-3 bg-white p-4 rounded-xl shadow-sm">
-              {!selectedBook && <div className="text-center text-gray-500 p-6">เลือกหนังสือจากฝั่งซ้ายเพื่อเริ่มอ่าน</div>}
-              {selectedBook && (
-                <div>
-                  <h2 className="text-xl font-semibold">{selectedBook.title}</h2>
-                  <div className="text-sm text-gray-500">{selectedBook.author}</div>
-                  <div className="mt-4 border rounded p-4 bg-white">
-                    {selectedBook.mime === "text/plain" && (
-                      <div style={{ whiteSpace: "pre-wrap" }}>{decodeURIComponent(escape(atob(selectedBook.dataUrl.split(',')[1])))}</div>
-                    )}
-                    {selectedBook.mime === "application/pdf" && (
-                      <iframe title={selectedBook.title} src={selectedBook.dataUrl} className="w-full h-[500px]" />
-                    )}
-                    {selectedBook.mime.startsWith("image/") && (
-                      <img src={selectedBook.dataUrl} alt={selectedBook.title} className="w-full" />
-                    )}
-                  </div>
-                </div>
-              )}
-            </section>
-          </main>
-
-          <footer className="max-w-6xl mx-auto mt-6 text-sm text-gray-500">
-            <div>{statusMsg}</div>
-            <div className="mt-2">เคล็ดลับ: กดหัวเรื่อง 5 ครั้งใน 3 วินาที หรือ Ctrl+Shift+A เพื่อเข้าสู่ระบบแอดมิน</div>
-          </footer>
-        </div>
-      );
     }
+    // show popup first then banner
+    try{
+      const popup = sponsors.find(x=>x.display==='popup'); if(popup) showSponsor(popup);
+      const banner = sponsors.find(x=>x.display==='banner'); if(banner) setTimeout(()=>showSponsor(banner),800);
+    }catch(e){console.warn(e)}
+  })();
+</script></body></html>`;
+        const w = window.open('', '_blank');
+        w.document.write(readerHtml);
+        w.document.close();
+      }return (
+    <div className="max-w-7xl mx-auto p-4">
+      <header className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h1 onClick={secretClick} className="text-3xl font-bold mb-2 md:mb-0 cursor-pointer select-none">📘 เว็บไซต์อ่านหนังสือ</h1>
+        {isAdmin && (
+          <div className="flex gap-2 items-center">
+            <button onClick={() => setIsAdmin(false)} className="px-3 py-1 bg-gray-200 rounded">ออกจากระบบ</button>
+          </div>
+        )}
+      </header>
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+      <main className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <aside className="bg-white p-4 rounded shadow">
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="🔍 ค้นหา..." className="w-full p-2 border rounded" />
+          <select value={selectedCat} onChange={(e) => setSelectedCat(e.target.value)} className="w-full mt-2 p-2 border rounded">
+            <option value="all">ทุกหมวดหมู่</option>
+            {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+          </select>
+          <div className="mt-4 max-h-[60vh] overflow-y-auto space-y-2">
+            {filteredBooks().map(b => (
+              <div key={b.id} className="p-2 border rounded hover:bg-gray-50 flex justify-between items-center">
+                <div onClick={() => setSelectedBook(b)} className="cursor-pointer">
+                  <div className="font-medium">{b.title}</div>
+                  <div className="text-xs text-gray-500">{b.author}</div>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <button onClick={() => openReaderInNewTab(b)} className="text-xs px-2 py-1 border rounded">อ่าน (เปิดแท็บใหม่)</button>
+                  {isAdmin && <button onClick={() => deleteBook(b.id)} className="text-xs px-2 py-1 border rounded">ลบ</button>}
+                </div>
+              </div>
+            ))}
+            {filteredBooks().length === 0 && <div className="text-sm text-gray-500">ไม่มีหนังสือในหมวดนี้</div>}
+          </div>
+
+          {isAdmin && (
+            <div className="mt-4">
+              <label className="block mb-2 text-sm">📤 อัพโหลดไฟล์หนังสือ</label>
+              <input ref={fileRef} type="file" accept="application/pdf,text/*,image/*" onChange={handleUpload} />
+              <button onClick={() => {
+                const name = prompt('ชื่อหมวดหมู่ใหม่:');
+                if (name) saveCategory({ id: Date.now() + Math.floor(Math.random()*1000), name });
+              }} className="mt-3 w-full px-3 py-1 border rounded">➕ เพิ่มหมวดหมู่</button>
+
+              <hr className="my-3" />
+
+              <div>
+                <label className="block mb-2 text-sm">📢 จัดการสปอนเซอร์</label>
+                <input ref={sponsorFileRef} type="file" accept="image/*,video/*" onChange={handleSponsorUpload} />
+                <div className="mt-2 text-xs text-gray-500">อัพโหลดแล้วจะให้ระบุชนิด (banner / popup), ชื่อ และ URL</div>
+                <div className="mt-3 space-y-2">
+                  {sponsors.map(s => (
+                    <div key={s.id} className="p-2 border rounded flex justify-between items-center">
+                      <div>
+                        <div className="font-medium">{s.title} <span className="text-xs text-gray-400">({s.display})</span></div>
+                        <div className="text-xs text-gray-500">{s.url}</div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button onClick={() => { navigator.clipboard?.writeText(s.id); alert('คัดลอก sponsor id: ' + s.id); }} className="px-2 py-1 border rounded text-xs">Copy ID</button>
+                        <button onClick={() => deleteSponsor(s.id)} className="px-2 py-1 border rounded text-xs">ลบ</button>
+                      </div>
+                    </div>
+                  ))}
+                  {sponsors.length === 0 && <div className="text-xs text-gray-500">ยังไม่มีสปอนเซอร์</div>}
+                </div>
+              </div>
+            </div>
+          )}
+        </aside>
+
+        <section className="md:col-span-3 bg-white p-4 rounded shadow min-h-[400px]">
+          {!selectedBook && <div className="text-center text-gray-400 mt-10">เลือกหนังสือเพื่ออ่าน</div>}
+          {selectedBook && (
+            <div>
+              <h2 className="text-xl font-semibold">{selectedBook.title}</h2>
+              <div className="text-sm text-gray-500">{selectedBook.author}</div>
+              <div className="text-xs text-gray-400 mb-2">หมวดหมู่: {selectedBook.category}</div>
+              {selectedBook.mime === 'application/pdf' ? (
+                <iframe src={selectedBook.dataUrl} className="w-full h-[600px] border rounded"></iframe>
+              ) : selectedBook.mime && selectedBook.mime.startsWith('image/') ? (
+                <img src={selectedBook.dataUrl} className="max-w-full rounded" />
+              ) : (
+                <pre className="bg-gray-50 p-3 rounded overflow-x-auto whitespace-pre-wrap">{selectedBook.dataUrl ? atob(selectedBook.dataUrl.split(',')[1]) : ''}</pre>
+              )}
+            </div>
+          )}
+        </section>
+      </main>
+
+      {/* show site-level sponsors (but respect closed flags) */}
+      {sponsors.map(s => (
+        <React.Fragment key={s.id}>
+          {s.display === 'popup' && !localStorage.getItem('sponsor_closed_' + s.id) && (
+            <div className="sponsor-popup" style={{display:'flex'}}>
+              <div className="sponsor-overlay" onClick={() => { localStorage.setItem('sponsor_closed_' + s.id,'1'); window.location.reload(); }} />
+              <div className="sponsor-card">
+                <div style={{position:'relative'}}>
+                  {s.mime && s.mime.startsWith('image') && <img src={s.dataUrl} style={{maxWidth:'90vw', maxHeight:'80vh'}} />}
+                  {s.mime && s.mime.startsWith('video') && <video src={s.dataUrl} controls autoPlay style={{maxWidth:'90vw', maxHeight:'80vh'}} />}
+                  {s.url && <a href={s.url} target="_blank" rel="noopener noreferrer" style={{position:'absolute', inset:0}} />}
+                  <button className="sponsor-close" onClick={() => { localStorage.setItem('sponsor_closed_' + s.id,'1'); window.location.reload(); }}>✕</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {s.display === 'banner' && !localStorage.getItem('sponsor_closed_' + s.id) && (
+            <div className="floating-banner">
+              <div className="floating-inner">
+                <div style={{display:'flex', alignItems:'center', gap:8, padding:8}}>
+                  {s.mime && s.mime.startsWith('image') && <img src={s.dataUrl} style={{maxHeight:90}} />}
+                  {s.mime && s.mime.startsWith('video') && <video src={s.dataUrl} controls autoPlay style={{maxHeight:120}} />}
+                  {s.url && <a href={s.url} target="_blank" rel="noopener noreferrer" style={{position:'absolute', inset:0}} />}
+                  <button className="floating-close" onClick={() => { localStorage.setItem('sponsor_closed_' + s.id,'1'); window.location.reload(); }}>✕</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
   </script>
 </body>
 </html>
