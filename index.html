@@ -1,43 +1,67 @@
-<!-- index.html --><!DOCTYPE html><html lang="th">
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>โปรไฟล์</title>
   <style>
+    @keyframes floatBG {
+      0% { background-position: 0 0; }
+      50% { background-position: 200px 200px; }
+      100% { background-position: 0 0; }
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background: #f2f4f8;
-      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #d7ecff, #f0f7ff);
+      background-size: 400% 400%;
+      animation: floatBG 14s ease-in-out infinite;
+      font-family: 'Segoe UI', Arial, sans-serif;
       text-align: center;
-      color: #333;
+      color: #1e2a38;
     }
+
     .container {
-      margin-top: 120px;
+      margin-top: 140px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.5);
+      display: inline-block;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
     }
+
     h1 {
-      font-size: 2rem;
+      font-size: 2.4rem;
       margin-bottom: 10px;
-      color: #2979ff;
+      color: #0077ff;
+      font-weight: 700;
     }
+
     p {
-      font-size: 1rem;
-      opacity: 0.8;
+      font-size: 1.1rem;
+      opacity: 0.85;
     }
+
     .btn {
       display: inline-block;
-      margin-top: 40px;
-      padding: 14px 30px;
-      font-size: 1.1rem;
+      margin-top: 30px;
+      padding: 14px 40px;
+      font-size: 1.15rem;
       text-decoration: none;
-      background: linear-gradient(135deg, #66aaff, #99ccff);
+      background: linear-gradient(135deg, #53a8ff, #6ec8ff);
       color: white;
-      border-radius: 12px;
+      font-weight: 600;
+      border-radius: 14px;
       transition: 0.25s;
+      box-shadow: 0 4px 15px rgba(0, 119, 255, 0.3);
     }
+
     .btn:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);
     }
   </style>
 </head>
@@ -46,75 +70,6 @@
     <h1>NJSHOP</h1>
     <p>กดปุ่มด้านล่างเพื่อดูโปรไฟล์ของฉัน</p>
     <a href="about.html" class="btn">โปรไฟล์</a>
-  </div>
-</body>
-</html><!-- about.html --><!DOCTYPE html><html lang="th">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เกี่ยวกับฉัน</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5faff;
-      margin: 0;
-      padding: 0;
-      color: #1a2b4c;
-    }
-    .header {
-      background: #66aaff;
-      padding: 40px 20px;
-      text-align: center;
-      color: white;
-    }
-    .header h1 {
-      margin: 0;
-      font-size: 2.4rem;
-    }
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    h2 {
-      color: #2979ff;
-      margin-top: 0;
-    }
-    .info {
-      line-height: 1.8;
-      font-size: 1.05rem;
-    }
-    .contact-box {
-      background: #e8f2ff;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <h1>โปรไฟล์</h1>
-  </div>  <div class="container">
-    <h2>ข้อมูลส่วนตัว</h2>
-    <p class="info">
-      <strong>ชื่อ:</strong> ใส่ชื่อของคุณที่นี่<br>
-      <strong>อายุ:</strong> ใส่อายุของคุณที่นี่<br>
-      <strong>งานอดิเรก:</strong> ใส่งานอดิเรก เช่น เล่นเกม, ฟังเพลง, ทำเว็บ เป็นต้น<br>
-      <strong>สถานะ:</strong> โสด
-    </p><h2>ช่องทางติดต่อ</h2>
-<div class="contact-box">
-  <p class="info">
-    <strong>Facebook:</strong> ลิงก์หรือชื่อโปรไฟล์<br>
-    <strong>Line:</strong> ไอดีไลน์<br>
-    <strong>Instagram:</strong> ลิงก์หรือยูสเซอร์เนม<br>
-    <strong>Discord:</strong> ใส่ดิสของคุณที่นี่
-  </p>
-</div>
-
   </div>
 </body>
 </html>
