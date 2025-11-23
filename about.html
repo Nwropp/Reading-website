@@ -1,0 +1,95 @@
+<!-- about.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกี่ยวกับฉัน</title>
+  <style>
+    @keyframes floatBG2 {
+      0% { background-position: 0 0; }
+      50% { background-position: 180px 120px; }
+      100% { background-position: 0 0; }
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e0f3ff, #f6fbff);
+      background-size: 400% 400%;
+      animation: floatBG2 14s ease-in-out infinite;
+      margin: 0;
+      padding: 0;
+      color: #1a2b4c;
+    }
+
+    .header {
+      background: rgba(102,170,255,0.9);
+      backdrop-filter: blur(8px);
+      padding: 45px 20px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.6rem;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 35px auto;
+      background: rgba(255,255,255,0.75);
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      color: #2979ff;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .info {
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .contact-box {
+      background: rgba(220,235,255,0.8);
+      padding: 18px;
+      border-radius: 16px;
+      margin-top: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>โปรไฟล์ของฉัน</h1>
+  </div>
+
+  <div class="container">
+    <h2>ข้อมูลส่วนตัว</h2>
+    <p class="info">
+      <strong>ชื่อ:</strong> ใส่ชื่อของคุณที่นี่<br>
+      <strong>อายุ:</strong> ใส่อายุของคุณที่นี่<br>
+      <strong>งานอดิเรก:</strong> เล่นเกม, ฟังเพลง, ทำเว็บ เป็นต้น<br>
+      <strong>สถานะ:</strong> โสด
+    </p>
+
+    <h2>ช่องทางติดต่อ</h2>
+    <div class="contact-box">
+      <p class="info">
+        <strong>Facebook:</strong> ลิงก์หรือชื่อโปรไฟล์<br>
+        <strong>Line:</strong> ไอดีไลน์<br>
+        <strong>Instagram:</strong> ลิงก์หรือยูสเซอร์เนม<br>
+        <strong>Discord:</strong> ใส่ดิสของคุณที่นี่
+      </p>
+    </div>
+  </div>
+</body>
+</html>
