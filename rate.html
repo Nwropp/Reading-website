@@ -1,4 +1,3 @@
-<!-- rate.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -6,273 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>เรทราคา - NJSHOP</title>
   <style>
-    @keyframes floatBG {
-      0% { background-position: 0 0; }
-      50% { background-position: 200px 200px; }
-      100% { background-position: 0 0; }
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(120deg, #d7ecff, #f0f7ff);
-      background-size: 400% 400%;
-      animation: floatBG 14s ease-in-out infinite;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      text-align: center;
-      color: #1e2a38;
-    }
-
-    .container {
-      margin: 50px auto;
-      max-width: 1200px;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 30px;
-      color: #0077ff;
-      font-weight: 700;
-      text-shadow: 0 2px 4px rgba(0, 119, 255, 0.2);
-    }
-
-    .tab-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-
-    .tab-btn {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 30px;
-      font-size: 1.1rem;
-      text-decoration: none;
-      background: linear-gradient(135deg, #53a8ff, #6ec8ff);
-      color: white;
-      font-weight: 600;
-      border-radius: 12px;
-      transition: 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
-      cursor: pointer;
-    }
-
-    .tab-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 6px 18px rgba(0, 119, 255, 0.45);
-    }
-
-    .tab-btn.active {
-      background: linear-gradient(135deg, #0077ff, #53a8ff);
-    }
-
-    .tab-content {
-      display: none;
-      backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.6);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      margin: 0 auto;
-      max-width: 800px;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .category h2 {
-      font-size: 2rem;
-      color: #0077ff;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .category ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .category li {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(0, 119, 255, 0.1);
-      transition: 0.3s;
-    }
-
-    .category li:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(0, 119, 255, 0.2);
-    }
-
-    .category li:before {
-      content: "💎 ";
-      margin-right: 8px;
-    }
-
-    .promotion {
-      font-size: 1.3rem;
-      color: #ff4500;
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .category img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(0, 119, 255, 0.2);
-      transition: 0.3s;
-    }
-
-    .category img:hover {
-      transform: scale(1.05);
-    }
-
-    .back-btn {
-      display: inline-block;
-      margin-top: 40px;
-      padding: 14px 40px;
-      font-size: 1.15rem;
-      text-decoration: none;
-      background: linear-gradient(135deg, #ff69b4, #ff8cd4);
-      color: white;
-      font-weight: 600;
-      border-radius: 14px;
-      transition: 0.25s;
-      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
-    }
-
-    .back-btn:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.45);
-    }
+    body {margin:0;padding:0;background:linear-gradient(135deg,#e0f7ff,#c8e8ff);background-image:url('https://i.imgur.com/2kR0z8J.jpg');background-size:cover;background-attachment:fixed;font-family:'Kanit',sans-serif;color:#2c3e50;min-height:100vh;}
+    .container {max-width:1200px;margin:30px auto;padding:20px;}
+    h1 {text-align:center;font-size:3.5rem;color:#0077ff;text-shadow:0 4px 12px rgba(0,119,255,0.3);margin-bottom:35px;}
+    .tab-buttons {display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-bottom:40px;}
+    .tab-btn {padding:16px 32px;font-size:1.18rem;font-weight:600;background:linear-gradient(135deg,#6ec8ff,#53a8ff);color:white;border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 20px rgba(83,168,255,0.4);transition:all .35s;}
+    .tab-btn:hover {transform:translateY(-6px) scale(1.08);box-shadow:0 14px 30px rgba(83,168,255,0.6);}
+    .tab-btn.active {background:linear-gradient(135deg,#0077ff,#005edc);transform:scale(1.12);}
+    .tab-content {display:none;background:rgba(255,255,255,0.94);backdrop-filter:blur(18px);border-radius:30px;padding:40px;box-shadow:0 20px 45px rgba(0,0,0,0.18);animation:fadeIn .6s ease;}
+    .tab-content.active {display:block;}
+    @keyframes fadeIn {from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .category h2 {text-align:center;font-size:2.5rem;color:#0077ff;margin-bottom:30px;}
+    .price-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin:25px 0;}
+    .price-item {background:linear-gradient(135deg,#f0f9ff,#e6f4ff);padding:24px;border-radius:22px;text-align:center;box-shadow:0 8px 22px rgba(0,119,255,0.2);transition:.35s;}
+    .price-item:hover {transform:translateY(-10px);box-shadow:0 18px 35px rgba(0,119,255,0.4);}
+    .price-item strong {font-size:1.6rem;color:#0077ff;display:block;margin-bottom:8px;}
+    .promotion {text-align:center;font-size:1.5rem;color:#ff3366;font-weight:bold;margin:28px 0;padding:20px;background:rgba(255,51,102,0.12);border-radius:20px;border:3px dashed #ff69b4;}
+    .back-btn {display:block;margin:60px auto;padding:20px 70px;font-size:1.5rem;background:linear-gradient(135deg,#ff69b4,#ff8cd4);color:white;border:none;border-radius:50px;cursor:pointer;box-shadow:0 10px 30px rgba(255,105,180,0.5);transition:.35s;}
+    .back-btn:hover {transform:translateY(-8px) scale(1.1);}
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>เรทราคา NJSHOP</h1>
-    
+    <h1>NJSHOP เรทราคา</h1>
+
     <div class="tab-buttons">
-      <button class="tab-btn active" onclick="openTab('tab1')">เติม Genesis Crystal</button>
-      <button class="tab-btn" onclick="openTab('tab2')">อัพเลเวลตัวละคร</button>
-      <button class="tab-btn" onclick="openTab('tab3')">ฟาร์มวัสดุ</button>
-      <button class="tab-btn" onclick="openTab('tab4')">สำรวจ 100%</button>
-      <button class="tab-btn" onclick="openTab('tab5')">บอสและอื่นๆ</button>
-      <button class="tab-btn" onclick="openTab('tab6')">โปรโมชั่นพิเศษ</button>
+      <button class="tab-btn active" onclick="openTab('topup')">เติมเจม (โบนัส)</button>
+      <button class="tab-btn" onclick="openTab('farm')">ฟาร์มเจม</button>
+      <button class="tab-btn" onclick="openTab('explore')">สำรวจแผนที่</button>
+      <button class="tab-btn" onclick="openTab('quest')">ทำเควส</button>
+      <button class="tab-btn" onclick="openTab('level')">อัพเลเวล</button>
+      <button class="tab-btn" onclick="openTab('daily')">ดูแลไอดี (รายวัน)</button>
+      <button class="tab-btn" onclick="openTab('item')">ฟาร์มไอเทม</button>
     </div>
 
-    <div id="tab1" class="tab-content category active">
-      <h2>เติม Genesis Crystal</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Genesis%20Crystal%20Rates" alt="รูปภาพเรทเติม Genesis Crystal">
-      <ul>
-        <li>Genesis Crystal x60 +60: 29 บาท</li>
-        <li>Genesis Crystal x300 +300: 150 บาท</li>
-        <li>Genesis Crystal x980 +980: 420 บาท</li>
-        <li>Genesis Crystal x1980 +1980: 890 บาท</li>
-        <li>Genesis Crystal x3280 +3280: 1370 บาท</li>
-        <li>Genesis Crystal x6480 +6480: 2300 บาท</li>
-        <li>Welkin Moon: 140 บาท</li>
-      </ul>
-      <p class="promotion">โปรโมชั่น: +100% First Top-up!</p>
+    <!-- 1. เติมเจม -->
+    <div id="topup" class="tab-content active">
+      <h2>เติม Genesis Crystal (ซื้อในเกม + โบนัส)</h2>
+      <div class="price-grid">
+        <div class="price-item"><strong>60 + 60</strong><br>29 บาท</div>
+        <div class="price-item"><strong>300 + 300</strong><br>150 บาท</div>
+        <div class="price-item"><strong>980 + 980</strong><br>420 บาท</div>
+        <div class="price-item"><strong>1,980 + 1,980</strong><br>890 บาท</div>
+        <div class="price-item"><strong>3,280 + 3,280</strong><br>1,370 บาท</div>
+        <div class="price-item"><strong>6,480 + 6,480</strong><br>2,300 บาท</div>
+        <div class="price-item"><strong>Welkin Moon</strong><br>140 บาท</div>
+      </div>
     </div>
 
-    <div id="tab2" class="tab-content category">
+    <!-- 2. ฟาร์มเจม -->
+    <div id="farm" class="tab-content">
+      <h2>ฟาร์ม Genesis Crystal</h2>
+      <div class="price-grid">
+        <div class="price-item"><strong>160 เจม</strong><br>9 บาท</div>
+        <div class="price-item"><strong>320 เจม</strong><br>18 บาท</div>
+        <div class="price-item"><strong>640 เจม</strong><br>36 บาท</div>
+        <div class="price-item"><strong>800 เจม</strong><br>45 บาท</div>
+        <div class="price-item"><strong>1,000 เจม</strong><br>56 บาท</div>
+        <div class="price-item"><strong>1,280 เจม</strong><br>72 บาท</div>
+        <div class="price-item"><strong>1,600 เจม</strong><br>90 บาท</div>
+        <div class="price-item"><strong>3,200 เจม</strong><br>180 บาท</div>
+        <div class="price-item"><strong>4,800 เจม</strong><br>270 บาท</div>
+        <div class="price-item"><strong>6,400 เจม</strong><br>360 บาท</div>
+        <div class="price-item"><strong>8,000 เจม</strong><br>510 บาท</div>
+        <div class="price-item"><strong>10,000 เจม</strong><br>622 บาท</div>
+        <div class="price-item"><strong>12,800 เจม</strong><br>780 บาท</div>
+        <div class="price-item"><strong>16,000 เจม</strong><br>960 บาท</div>
+        <div class="price-item"><strong>20,000 เจม</strong><br>1,185 บาท</div>
+      </div>
+    </div>
+
+    <!--เควสหลักและตำนาน-->
+    <div id="explore" class="tab-content">
+      <h2>เควสหลัก-เควสตำนาน</h2>
+      <div class="price-grid">
+        <div class="price-item"><strong>Mondstadt</strong><br>30 บาท</div>
+        <div class="price-item"><strong>Liyue</strong><br>35 บาท</div>
+        <div class="price-item"><strong>Inazuma</strong><br>40 บาท</div>
+        <div class="price-item"><strong>Sumeru</strong><br>50 บาท</div>
+        <div class="price-item"><strong>Fontaine</strong><br>50 บาท</div>
+        <div class="price-item"><strong>Natlan</strong><br>55 บาท</div>
+        <div class="price-item"><strong>Nod-Krai</strong><br>55บาท</div>
+        <div class="price-item"><strong>เควสตำนาน</strong><br>25บาทต่อตัว</div>
+
+      </div>
+    </div>
+
+    <!-- 4. แผนที่100% -->
+    <div id="quest" class="tab-content">
+      <h2>แผนที่100%</h2>
+      <div class="price-grid">
+        <div class="price-item"><strong>Monstad</strong><br>180 ต่อจุด</div>
+        <div class="price-item"><strong>Liyue</strong><br>230 ต่อจุด</div>
+        <div class="price-item"><strong>Inazuma</strong><br>230 ต่อจุด</div>
+        <div class="price-item"><strong>Sumri</strong><br>250 ต่อจุด</div>
+        <div class="price-item"><strong>Fontaine</strong><br>270 ต่อจุด</div>
+        <div class="price-item"><strong>Natian</strong><br>300 ต่อจุด</div>
+        <div class="price-item"><strong>Nod-Krai</strong><br>300 ต่อจุด</div>
+      </div>
+      <div class="promotion">ติดเควส+ราคาเพิ่มนะงับ<br>คุยกันได้ทุกกรณี!</div>
+    </div>
+
+    <!-- 5. อัพเลเวล -->
+    <div id="level" class="tab-content">
       <h2>อัพเลเวลตัวละคร</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Level%20Up%20Rates" alt="รูปภาพเรทอัพเลเวล">
-      <ul>
-        <li>LV 1-40: 10฿</li>
-        <li>LV 40-50: 20฿</li>
-        <li>LV 50-60: 30฿</li>
-        <li>LV 60-70: 45฿</li>
-        <li>LV 70-80: 55฿</li>
-        <li>LV 80-90: 65฿</li>
-        <li>แพ็ค LV 1-90: 220฿</li>
-      </ul>
-      <p class="promotion">สำหรับตัวละครปกติและตัวละครพิเศษ</p>
+      <div class="price-grid">
+        <div class="price-item">LV 1→40<br><strong>10 บาท</strong></div>
+        <div class="price-item">LV 40→50<br><strong>20 บาท</strong></div>
+        <div class="price-item">LV 50→60<br><strong>30 บาท</strong></div>
+        <div class="price-item">LV 60→70<br><strong>45 บาท</strong></div>
+        <div class="price-item">LV 70→80<br><strong>55 บาท</strong></div>
+        <div class="price-item">LV 80→90<br><strong>65 บาท</strong></div>
+        <div class="price-item">แพ็ค 1→90<br><strong>220 บาท</strong></div>
+      </div>
     </div>
 
-    <div id="tab3" class="tab-content category">
-      <h2>ฟาร์มวัสดุ</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Farm%20Materials" alt="รูปภาพเรทฟาร์มวัสดุ">
-      <ul>
-        <li>หนังสือพรสวรรค์: 0.5฿ ต่อเล่ม</li>
-        <li>อัญมณีธาตุ: 0.5฿ ต่อชิ้น</li>
-        <li>วัสดุท้องถิ่น: 0.5฿ ต่อชิ้น</li>
-        <li>มอนสเตอร์ทั่วไป: 1฿ ต่อชิ้น</li>
-        <li>มอนสเตอร์พิเศษ: 2฿ ต่อชิ้น</li>
-        <li>บอส每周: 3฿ ต่อชิ้น</li>
-        <li>อาร์ติแฟกต์ 4 ดาว: 0.25฿ ต่อชิ้น</li>
-        <li>อาร์ติแฟกต์ 5 ดาว: 0.50฿ ต่อชิ้น</li>
-        <li>แพ็คอาร์ติแฟกต์: 1฿ - 1.50฿</li>
-      </ul>
-      <p class="promotion">ลด 10-30% สำหรับจำนวนมาก!</p>
+    <!-- 6. ดูแลไอดี -->
+    <div id="daily" class="tab-content">
+      <h2>ดูแลไอดี (ทำเดย์ลี่ + เรซิ่น + อีเวนท์)</h2>
+      <div class="price-grid">
+        <div class="price-item"><strong>1 วัน</strong><br>25 บาท</div>
+        <div class="price-item"><strong>7 วัน</strong><br>160 บาท (ประหยัด 15 บาท)</div>
+        <div class="price-item"><strong>30 วัน</strong><br>650 บาท (ประหยัด 100 บาท)</div>
+        <div class="price-item"><strong>60 วัน</strong><br>1,200 บาท (ถูกสุด!)</div>
+      </div>
+      <div class="promotion">รวมทำเดย์ลี่, ใช้เรซิ่น, เก็บอีเวนท์, ลง Spiral Abyss<br>ปลอดภัย 100% ไม่โดนแบนแน่นอน!</div>
     </div>
 
-    <div id="tab4" class="tab-content category">
-      <h2>สำรวจ 100%</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Exploration%20Rates" alt="รูปภาพเรทสำรวจ">
-      <ul>
-        <li>Mondstadt: 180 บาท (2%)</li>
-        <li>Liyue: 230 บาท (2.5%)</li>
-        <li>Inazuma: 230 บาท (2.5%)</li>
-        <li>Sumeru: 250 บาท (3%)</li>
-        <li>Fontaine: 270 บาท (3%)</li>
-        <li>Natlan: 300 บาท (3.5%)</li>
-      </ul>
-      <p class="promotion">รวมเควสและหีบ 50-2000 บาท</p>
+    <!-- 7. ฟาร์มไอเทม -->
+    <div id="item" class="tab-content">
+      <h2>ฟาร์มไอเทม (วัสดุ + อาร์ติแฟกต์)</h2>
+      <div class="price-grid">
+        <div class="price-item">ดอกไม้/หนังสือ/เห็ด<br><strong>0.5 บาท</strong></div>
+        <div class="price-item">มอนทั่วไป<br><strong>1 บาท</strong></div>
+        <div class="price-item">มอนพิเศษ/บอสสัปดาห์<br><strong>2-3 บาท</strong></div>
+        <div class="price-item">อาร์ติแฟกต์ 4★<br><strong>0.25 บาท</strong></div>
+        <div class="price-item">อาร์ติแฟกต์ 5★<br><strong>0.50 บาท</strong></div>
+        <div class="price-item">แพ็คอาร์ติแฟกต์<br><strong>1-1.5 บาท</strong></div>
+      </div>
+      <div class="promotion">ซื้อจำนวนมาก ลดเพิ่มได้อีก!</div>
     </div>
 
-    <div id="tab5" class="tab-content category">
-      <h2>บอสและอื่นๆ</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Boss%20Rates" alt="รูปภาพเรทบอส">
-      <ul>
-        <li>บอสวัสดุอัพเลเวล: 30฿ ต่อตัว</li>
-        <li>บอส每周: 225฿ ต่อ 30 เรซิ่น</li>
-        <li>อาร์ติแฟกต์: 7.50฿ ต่อชิ้น (หรือ 52.50฿ สำหรับ 7 ชิ้น)</li>
-        <li>1 เรซิ่น: 25฿</li>
-      </ul>
-      <p class="promotion">รวมแพ็ค BPS และอื่นๆ</p>
-    </div>
-
-    <div id="tab6" class="tab-content category">
-      <h2>โปรโมชั่นพิเศษ</h2>
-      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Special%20Promotions" alt="รูปภาพโปรโมชั่น">
-      <ul>
-        <li>เติมคริสตัล +10-30%</li>
-        <li>สำรวจรวม: ลดราคาพิเศษ</li>
-        <li>Facebook: Nawaphon Jamrasrak</li>
-      </ul>
-    </div>
-
-    <a href="index.html" class="back-btn">กลับสู่หน้าหลัก</a>
+    <button class="back-btn" onclick="window.location.href='index.html'">กลับหน้าหลัก</button>
   </div>
 
   <script>
     function openTab(tabId) {
-      var tabs = document.getElementsByClassName('tab-content');
-      for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('active');
-      }
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-
-      var btns = document.getElementsByClassName('tab-btn');
-      for (var i = 0; i < btns.length; i++) {
-        btns[i].classList.remove('active');
-      }
       event.currentTarget.classList.add('active');
     }
   </script>
