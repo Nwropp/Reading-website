@@ -30,29 +30,69 @@
     }
 
     h1 {
-      font-size: 2.4rem;
-      margin-bottom: 20px;
+      font-size: 2.8rem;
+      margin-bottom: 30px;
       color: #0077ff;
       font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 119, 255, 0.2);
     }
 
-    .category {
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.5);
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
       display: inline-block;
-      padding: 20px;
+      margin: 10px;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      background: linear-gradient(135deg, #53a8ff, #6ec8ff);
+      color: white;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+      cursor: pointer;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 18px rgba(0, 119, 255, 0.45);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0077ff, #53a8ff);
+    }
+
+    .tab-content {
+      display: none;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.6);
+      padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
-      margin: 20px;
-      text-align: left;
-      width: 300px;
-      vertical-align: top;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      margin: 0 auto;
+      max-width: 800px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .category h2 {
-      font-size: 1.8rem;
-      color: #ff69b4;
-      margin-bottom: 15px;
+      font-size: 2rem;
+      color: #0077ff;
+      margin-bottom: 20px;
       text-align: center;
     }
 
@@ -62,30 +102,63 @@
     }
 
     .category li {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: linear-gradient(135deg, #ffe4e1, #fff0f5);
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2);
-      transition: 0.25s;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 119, 255, 0.1);
+      transition: 0.3s;
     }
 
     .category li:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0, 119, 255, 0.2);
     }
 
     .category li:before {
-      content: "🌟 ";
-      margin-right: 5px;
+      content: "💎 ";
+      margin-right: 8px;
     }
 
     .promotion {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #ff4500;
-      margin-top: 10px;
+      margin-top: 15px;
       text-align: center;
+      font-weight: bold;
+    }
+
+    .category img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 119, 255, 0.2);
+      transition: 0.3s;
+    }
+
+    .category img:hover {
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 14px 40px;
+      font-size: 1.15rem;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff69b4, #ff8cd4);
+      color: white;
+      font-weight: 600;
+      border-radius: 14px;
+      transition: 0.25s;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.45);
     }
   </style>
 </head>
@@ -93,9 +166,18 @@
   <div class="container">
     <h1>เรทราคา NJSHOP</h1>
     
-    <!-- Category 1: เติม Genesis Crystal -->
-    <div class="category">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="openTab('tab1')">เติม Genesis Crystal</button>
+      <button class="tab-btn" onclick="openTab('tab2')">อัพเลเวลตัวละคร</button>
+      <button class="tab-btn" onclick="openTab('tab3')">ฟาร์มวัสดุ</button>
+      <button class="tab-btn" onclick="openTab('tab4')">สำรวจ 100%</button>
+      <button class="tab-btn" onclick="openTab('tab5')">บอสและอื่นๆ</button>
+      <button class="tab-btn" onclick="openTab('tab6')">โปรโมชั่นพิเศษ</button>
+    </div>
+
+    <div id="tab1" class="tab-content category active">
       <h2>เติม Genesis Crystal</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Genesis%20Crystal%20Rates" alt="รูปภาพเรทเติม Genesis Crystal">
       <ul>
         <li>Genesis Crystal x60 +60: 29 บาท</li>
         <li>Genesis Crystal x300 +300: 150 บาท</li>
@@ -108,9 +190,9 @@
       <p class="promotion">โปรโมชั่น: +100% First Top-up!</p>
     </div>
 
-    <!-- Category 2: อัพเลเวลตัวละคร -->
-    <div class="category">
+    <div id="tab2" class="tab-content category">
       <h2>อัพเลเวลตัวละคร</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Level%20Up%20Rates" alt="รูปภาพเรทอัพเลเวล">
       <ul>
         <li>LV 1-40: 10฿</li>
         <li>LV 40-50: 20฿</li>
@@ -123,9 +205,9 @@
       <p class="promotion">สำหรับตัวละครปกติและตัวละครพิเศษ</p>
     </div>
 
-    <!-- Category 3: ฟาร์มวัสดุ -->
-    <div class="category">
+    <div id="tab3" class="tab-content category">
       <h2>ฟาร์มวัสดุ</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Farm%20Materials" alt="รูปภาพเรทฟาร์มวัสดุ">
       <ul>
         <li>หนังสือพรสวรรค์: 0.5฿ ต่อเล่ม</li>
         <li>อัญมณีธาตุ: 0.5฿ ต่อชิ้น</li>
@@ -140,9 +222,9 @@
       <p class="promotion">ลด 10-30% สำหรับจำนวนมาก!</p>
     </div>
 
-    <!-- Category 4: สำรวจ 100% -->
-    <div class="category">
+    <div id="tab4" class="tab-content category">
       <h2>สำรวจ 100%</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Exploration%20Rates" alt="รูปภาพเรทสำรวจ">
       <ul>
         <li>Mondstadt: 180 บาท (2%)</li>
         <li>Liyue: 230 บาท (2.5%)</li>
@@ -154,9 +236,9 @@
       <p class="promotion">รวมเควสและหีบ 50-2000 บาท</p>
     </div>
 
-    <!-- Category 5: บอสและอื่นๆ -->
-    <div class="category">
+    <div id="tab5" class="tab-content category">
       <h2>บอสและอื่นๆ</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Boss%20Rates" alt="รูปภาพเรทบอส">
       <ul>
         <li>บอสวัสดุอัพเลเวล: 30฿ ต่อตัว</li>
         <li>บอส每周: 225฿ ต่อ 30 เรซิ่น</li>
@@ -166,9 +248,9 @@
       <p class="promotion">รวมแพ็ค BPS และอื่นๆ</p>
     </div>
 
-    <!-- Category 6: โปรโมชั่นพิเศษ -->
-    <div class="category">
+    <div id="tab6" class="tab-content category">
       <h2>โปรโมชั่นพิเศษ</h2>
+      <img src="https://placeholder.pics/svg/600x400/DEDEDE/555555/Special%20Promotions" alt="รูปภาพโปรโมชั่น">
       <ul>
         <li>เติมคริสตัล +10-30%</li>
         <li>สำรวจรวม: ลดราคาพิเศษ</li>
@@ -176,7 +258,23 @@
       </ul>
     </div>
 
-    <a href="index.html" class="btn">กลับสู่หน้าหลัก</a>
+    <a href="index.html" class="back-btn">กลับสู่หน้าหลัก</a>
   </div>
+
+  <script>
+    function openTab(tabId) {
+      var tabs = document.getElementsByClassName('tab-content');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+      }
+      document.getElementById(tabId).classList.add('active');
+
+      var btns = document.getElementsByClassName('tab-btn');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('active');
+      }
+      event.currentTarget.classList.add('active');
+    }
+  </script>
 </body>
 </html>
