@@ -145,6 +145,80 @@
       transform:translateY(-10px) scale(1.12);
       box-shadow:0 25px 55px rgba(244,114,182,0.65);
     }
+
+    /* Media Queries สำหรับมือถือ */
+    @media (max-width: 768px) {
+      .container {padding: 10px; margin: 10px auto;}
+
+      h1 {
+        font-size: 2.5rem; /* ลดขนาดหัวข้อใหญ่ */
+        margin: 20px 0 30px;
+      }
+
+      .tab-buttons {
+        flex-direction: column; /* ทำให้ปุ่มแท็บเรียงแนวตั้ง */
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+      .tab-btn {
+        padding: 12px 24px;
+        font-size: 1rem; /* ลดขนาดตัวอักษรปุ่ม */
+      }
+      .tab-btn.active {
+        transform: scale(1.05); /* ลดการขยายเพื่อไม่ให้กว้างเกิน */
+      }
+
+      .tab-content {
+        padding: 20px; /* ลด padding ในเนื้อหา */
+        border-radius: 20px;
+      }
+
+      .category h2 {
+        font-size: 2rem; /* ลดขนาดหัวข้อย่อย */
+        margin: 15px 0 30px;
+      }
+
+      .category-img {
+        margin: -20px -20px 25px -20px; /* ปรับ margin ให้เล็กลงสำหรับมือถือ */
+      }
+
+      .price-grid {
+        grid-template-columns: repeat(2, 1fr); /* แสดง 2 ช่องต่อแถว */
+        gap: 15px;
+        margin: 25px 0;
+      }
+      .price-item {
+        padding: 20px; /* ลด padding ใน price-item */
+        border-radius: 20px;
+      }
+      .price-item strong {
+        font-size: 1.5rem; /* ลดขนาดตัวอักษรราคา */
+      }
+
+      .promotion {
+        font-size: 1.3rem; /* ลดขนาดโปรโมชั่น */
+        margin: 30px 0;
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .back-btn {
+        padding: 18px 80px; /* ลดขนาดปุ่มกลับ */
+        font-size: 1.5rem;
+        margin: 50px auto 20px;
+      }
+    }
+
+    /* สำหรับหน้าจอเล็กมาก (เช่น มือถือขนาดเล็ก) ถ้าต้องการ fallback เป็น 1 ช่อง */
+    @media (max-width: 480px) {
+      h1 { font-size: 2rem; }
+      .tab-btn { font-size: 0.9rem; padding: 10px 20px; }
+      .category h2 { font-size: 1.8rem; }
+      .price-grid { grid-template-columns: repeat(2, 1fr); /* ยังคง 2 ช่อง แต่ถ้าแน่นเกิน สามารถเปลี่ยนเป็น 1fr ได้ */ }
+      .price-item strong { font-size: 1.4rem; }
+      .promotion { font-size: 1.2rem; }
+      .back-btn { padding: 15px 60px; font-size: 1.3rem; }
+    }
   </style>
 </head>
 <body>
@@ -152,13 +226,13 @@
     <h1>NJSHOP เรทราคา</h1>
 
     <div class="tab-buttons">
-      <button class="tab-btn active" onclick="openTab('topup')">เติมเจม (โบนัส)</button>
-      <button class="tab-btn" onclick="openTab('farm')">ฟาร์มเจม</button>
-      <button class="tab-btn" onclick="openTab('explore')">เควสหลัก</button>
-      <button class="tab-btn" onclick="openTab('quest')">เปิด 100%</button>
-      <button class="tab-btn" onclick="openTab('level')">อัพเลเวล</button>
-      <button class="tab-btn" onclick="openTab('daily')">ดูแลไอดี</button>
-      <button class="tab-btn" onclick="openTab('item')">ฟาร์มไอเทม</button>
+      <button class="tab-btn active" onclick="openTab('topup', this)">เติมเจม (โบนัส)</button>
+      <button class="tab-btn" onclick="openTab('farm', this)">ฟาร์มเจม</button>
+      <button class="tab-btn" onclick="openTab('explore', this)">เควสหลัก</button>
+      <button class="tab-btn" onclick="openTab('quest', this)">เปิด 100%</button>
+      <button class="tab-btn" onclick="openTab('level', this)">อัพเลเวล</button>
+      <button class="tab-btn" onclick="openTab('daily', this)">ดูแลไอดี</button>
+      <button class="tab-btn" onclick="openTab('item', this)">ฟาร์มไอเทม</button>
     </div>
 
     <!-- 1. เติมเจม -->
@@ -307,11 +381,11 @@
   </div>
 
   <script>
-    function openTab(tabId) {
+    function openTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      event.currentTarget.classList.add('active');
+      btn.classList.add('active');
     }
   </script>
 </body>
