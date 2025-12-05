@@ -1,74 +1,81 @@
-<!-- index.html -->  <!DOCTYPE html>  <html lang="th">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>โปรไฟล์</title>  
-  <style>  
-    @keyframes floatBG {  
-      0% { background-position: 0 0; }  
-      50% { background-position: 200px 200px; }  
-      100% { background-position: 0 0; }  
-    }  body {  
-  margin: 0;  
-  padding: 0;  
-  background: linear-gradient(120deg, #d7ecff, #f0f7ff);  
-  background-size: 400% 400%;  
-  animation: floatBG 14s ease-in-out infinite;  
-  font-family: 'Segoe UI', Arial, sans-serif;  
-  text-align: center;  
-  color: #1e2a38;  
-}  
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โปรไฟล์</title>
+  <style>
+    @keyframes floatBG {
+      0% { background-position: 0 0; }
+      50% { background-position: 200px 200px; }
+      100% { background-position: 0 0; }
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #d7ecff, #f0f7ff);
+      background-size: 400% 400%;
+      animation: floatBG 14s ease-in-out infinite;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-align: center;
+      color: #1e2a38;
+    }
 
-.container {  
-  margin-top: 140px;  
-  backdrop-filter: blur(10px);  
-  background: rgba(255, 255, 255, 0.5);  
-  display: inline-block;  
-  padding: 40px 50px;  
-  border-radius: 20px;  
-  box-shadow: 0 8px 22px rgba(0,0,0,0.15);  
-}  
+    .container {
+      margin-top: 140px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.5);
+      display: inline-block;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+    }
 
-h1 {  
-  font-size: 2.4rem;  
-  margin-bottom: 10px;  
-  color: #0077ff;  
-  font-weight: 700;  
-}  
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      color: #0077ff;
+      font-weight: 700;
+    }
 
-p {  
-  font-size: 1.1rem;  
-  opacity: 0.85;  
-}  
+    p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+    }
 
-.btn {  
-  display: inline-block;  
-  margin-top: 30px;  
-  padding: 14px 40px;  
-  font-size: 1.15rem;  
-  text-decoration: none;  
-  background: linear-gradient(135deg, #53a8ff, #6ec8ff);  
-  color: white;  
-  font-weight: 600;  
-  border-radius: 14px;  
-  transition: 0.25s;  
-  box-shadow: 0 4px 15px rgba(0, 119, 255, 0.3);  
-}  
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 40px;
+      font-size: 1.15rem;
+      text-decoration: none;
+      background: linear-gradient(135deg, #53a8ff, #6ec8ff);
+      color: white;
+      font-weight: 600;
+      border-radius: 14px;
+      transition: 0.25s;
+      box-shadow: 0 4px 15px rgba(0, 119, 255, 0.3);
+    }
 
-.btn:hover {  
-  transform: translateY(-4px) scale(1.05);  
-  box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);  
-}
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);
+    }
 
-  </style>  
-</head>  
-<body>  
-  <div class="container">  
-<h> NJ SHOP </h>  
-    <p>กดปุ่มด้านล่างเพื่อดูโปรไฟล์ของฉัน</p>  
-    <a href="about.html" class="btn">ช่องทางติดต่อร้าน</a>  
-    <!-- <a href="https://www.google.com/?zx=1763928189154&no_sw_cr=1" class="btn">เว็ปขายไอดี</a> -->  
-    <a href="rate.html" class="btn">เรทราคา</a>  
-  </div>  
-</body>  
-</html> 
+    .logo {
+      max-width: 200px; /* ปรับขนาดตามต้องการ */
+      height: auto;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://drive.google.com/uc?export=view&id=134xb0pO0IuUpi3SgA3BH-cnU6Pu8wopu" alt="NJ SHOP Logo" class="logo"> <!-- แทนที่ logo.png ด้วยชื่อไฟล์โลโก้จริงของคุณ -->
+    <p>กดปุ่มด้านล่างเพื่อดูโปรไฟล์ของฉัน</p>
+    <a href="about.html" class="btn">ช่องทางติดต่อร้าน</a>
+    <!-- <a href="https://www.google.com/?zx=1763928189154&no_sw_cr=1" class="btn">เว็ปขายไอดี</a> -->
+    <a href="rate.html" class="btn">เรทราคา</a>
+  </div>
+</body>
+</html>
