@@ -64,11 +64,23 @@
       transform: translateY(-4px) scale(1.05);
       box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);
     }
+    .logo {
+  width: 230px;
+  margin-bottom: 20px;
+  animation: floatLogo 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(0, 140, 255, 0.25));
+}
+
+@keyframes floatLogo {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
   </style>
 </head>
 <body>
   <div class="container">
-<h>NJ SHOP </h>
+<img src="logo.png" alt="NJ SHOP Logo" class="logo">
     <p>กดปุ่มด้านล่างเพื่อดูโปรไฟล์ของฉัน</p>
     <a href="about.html" class="btn">ช่องทางติดต่อร้าน</a>
     <!-- <a href="https://www.google.com/?zx=1763928189154&no_sw_cr=1" class="btn">เว็ปขายไอดี</a> -->
