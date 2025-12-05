@@ -1,81 +1,94 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NJ SHOP</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โปรไฟล์</title>
+  <style>
+    @keyframes floatBG {
+      0% { background-position: 0 0; }
+      50% { background-position: 200px 200px; }
+      100% { background-position: 0 0; }
+    }
 
-    <style>
-        body {
-            background: #0a0f1f;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #d7ecff, #f0f7ff);
+      background-size: 400% 400%;
+      animation: floatBG 14s ease-in-out infinite;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-align: center;
+      color: #1e2a38;
+    }
 
-        .container {
-            margin-top: 40px;
-        }
+    .container {
+      margin-top: 140px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.5);
+      display: inline-block;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+    }
 
-        .logo {
-            width: 230px;
-            margin-bottom: 20px;
-            animation: floatLogo 4s ease-in-out infinite;
-            filter: drop-shadow(0 4px 10px rgba(0, 140, 255, 0.25));
-        }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      color: #0077ff;
+      font-weight: 700;
+    }
 
-        @keyframes floatLogo {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
+    p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+    }
 
-        h1 {
-            font-size: 2rem;
-            margin-top: 10px;
-        }
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 40px;
+      font-size: 1.15rem;
+      text-decoration: none;
+      background: linear-gradient(135deg, #53a8ff, #6ec8ff);
+      color: white;
+      font-weight: 600;
+      border-radius: 14px;
+      transition: 0.25s;
+      box-shadow: 0 4px 15px rgba(0, 119, 255, 0.3);
+    }
 
-        p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);
+    }
+    .logo {
+  width: 230px;
+  margin-bottom: 20px;
+  animation: floatLogo 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(0, 140, 255, 0.25));
+}
 
-        .btn {
-            display: inline-block;
-            margin: 10px;
-            padding: 14px 40px;
-            background: linear-gradient(135deg, #53a8ff, #6ec0ff);
-            border-radius: 14px;
-            font-size: 1.1rem;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.25s;
-            box-shadow: 0 4px 15px rgba(0, 119, 255, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 119, 255, 0.45);
-        }
-    </style>
+@keyframes floatLogo {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <img 
-            src="https://drive.google.com/uc?export=view&id=134xb0pO0IuUpi3SgA3BH-cnU6Pu8wopu"
-            alt="NJ SHOP Logo"
-            class="logo"
-        />
-
-        <h1>NJ SHOP</h1>
-        <p>✨ ยินดีต้อนรับสู่ร้านฟามเกมของเรา ✨</p>
-
-        <a href="about.html" class="btn">รายละเอียดร้าน</a>
-        <a href="rate.html" class="btn">เรทราคา</a>
-    </div>
+  <div class="container">
+<div class="nav-container">
+    <img src="https://drive.google.com/file/d/134xb0pO0IuUpi3SgA3BH-cnU6Pu8wopu/view?usp=drivesdk"alt="NJ SHOP Logo"class="logo" />
+    <h1>NJ SHOP</h1>
+</div>
+    <p>กดปุ่มด้านล่างเพื่อดูโปรไฟล์ของฉัน</p>
+    <a href="about.html" class="btn">ช่องทางติดต่อร้าน</a>
+    <!-- <a href="https://www.google.com/?zx=1763928189154&no_sw_cr=1" class="btn">เว็ปขายไอดี</a> -->
+    <a href="rate.html" class="btn">เรทราคา</a>
+  </div>
 </body>
 </html>
+
+
